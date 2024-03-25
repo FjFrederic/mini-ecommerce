@@ -35,7 +35,4 @@ core/
 ├── UseCase (Application layer)
 │   ├── Commands
 │   └── Query
-├── Domain
-│   └── Service
-│       └── UserServiceTest.php
 └── Port (I/O)
