@@ -1,0 +1,68 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: true
+        # bind:
+        #     $id: '%id%'
+        #     $title: '%title%'
+        #     $price: '%price%'
+        #     $description: '%description%'
+        #     $category: '%category%'
+        #     $image: '%image%'
+        #     $rating: '%rating%'
+        #     $isSuccess: '%isSuccess%'
+        #     $error: '%error%'
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            #- '../core/UseCase/'
+            - '../core/BusinessModel/'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+#    Core\UseCase\:
+#        resource: '../core/UseCase/'
+#    Core\BusinessModel\:
+#         resource: '../core/BusinessModel/'
+    Core\UseCase\Product\Query\FetchProductFromAPIQuery: ~
+    Core\UseCase\Order\Commands\CreateOrderCommandHandler: ~
+#    Core\UseCase\Cart: ~
+#    Core\UseCase\Cart\AddCart\InputDTO:
+#        arguments:
+#            $id:
+#            $title:
+#            $price:
+#            $description:
+#            $category:
+#            $image:
+#            $rating:
+    #Core\UseCase\Order\Commands\CreateOrderCommand:
+#        arguments:
+#            $firstname: ~
+#            $lastname: ~
+#            $email: ~
+#            $address: ~
+#            $cart: ~
+    Core\UseCase\Order\Commands\OutputDTO:
+        arguments:
+            $success: ~
+
+    Core\Port\Service\Product\RepositoryInterface: '@App\Adapter\Service\Product\Repository'
+    #Core\Port\Service\Cart\RepositoryInterface: '@App\Adapter\Service\Cart\Repository'
+    Core\Port\Service\Order\RepositoryInterface: '@App\Adapter\Service\Order\Repository'
+    Core\Port\Framework\HttpClientInterface: '@App\Adapter\Framework\HttpClient'
